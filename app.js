@@ -185,7 +185,7 @@ class Sketch {
             this.direction = this.scroll > 0 ? -1 : 1;
 
             this.scroll -= (this.scroll - this.scrollTarget) * 0.1;
-            this.scroll *= 0.9;
+            this.scroll *= 0.8;
 
             this.thumbs.forEach((th) => {
                 th.position.x = this.calcPos(this.scroll, th.position.x);
