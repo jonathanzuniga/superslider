@@ -1,5 +1,7 @@
 # Super Slider
 
+WebGL Distorted Infinite Slider with Pixi.js
+
 Install the packages.
 
 ```
