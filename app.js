@@ -34,6 +34,7 @@ class Sketch {
 
         this.margin = 50;
         this.scroll = 0;
+        this.scrollTarget = 0;
         this.width = (window.innerWidth - 2 * this.margin) / 3;
         this.height = window.innerHeight * 0.8;
         this.container = new PIXI.Container();
@@ -55,7 +56,7 @@ class Sketch {
         document.addEventListener("mousewheel", (event) => {
             // console.log(event);
 
-            this.scroll = event.wheelDelta;
+            this.scrollTarget = event.wheelDelta / 3;
         });
     }
 
@@ -138,6 +139,8 @@ class Sketch {
     render() {
         this.app.ticker.add(() => {
             this.app.renderer.render(this.container);
+
+            this.scroll -= (this.scroll - this.scrollTarget) * 0.1;
 
             this.thumbs.forEach((th) => {
                 th.position.x += this.scroll;
