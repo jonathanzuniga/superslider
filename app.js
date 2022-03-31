@@ -27,7 +27,7 @@ function loadImages(paths, whenLoaded) {
 class Sketch {
     constructor() {
         this.app = new PIXI.Application({
-            backgroundColor: 0x1099bb,
+            backgroundColor: 0xffffff,
             resizeTo: window,
         });
 
