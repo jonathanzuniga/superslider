@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "parcel": "^2.4.1",
+    "querystring-es3": "^0.2.1"
+  },
+  "dependencies": {
+    "gsap": "^3.10.2",
+    "math-fit": "^1.0.1",
+    "pixi.js": "^6.3.0"
+  }
+}
