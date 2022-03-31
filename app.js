@@ -111,10 +111,6 @@ class Sketch {
             mask.height = this.height;
 
             sprite.mask = mask;
-
-            // sprite.width = 100;
-            // sprite.height = 100;
-
             sprite.anchor.set(0.5);
 
             // console.log(sprite);
