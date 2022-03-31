@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import fit from "math-fit";
 import gsap from "gsap";
+import disp from "./displacement.jpg";
 
 const t1 = "https://picsum.photos/1024/1024?grayscale";
 const t2 = "https://picsum.photos/1024/1024?grayscale";
@@ -50,6 +51,7 @@ class Sketch {
             this.add();
             this.render();
             this.scrollEvent();
+            this.addFilter();
         });
     }
 
@@ -59,6 +61,35 @@ class Sketch {
 
             this.scrollTarget = event.wheelDelta / 3;
         });
+    }
+
+    addFilter() {
+        this.displacementSprite = PIXI.Sprite.from(disp);
+        this.app.stage.addChild(this.displacementSprite);
+
+        const target = {
+            w: 512,
+            h: 512,
+        };
+
+        const parent = {
+            w: innerWidth,
+            h: innerHeight,
+        };
+
+        const cover = fit(target, parent);
+
+        this.displacementSprite.position.set(cover.left, cover.top);
+        this.displacementSprite.scale.set(cover.scale, cover.scale);
+
+        this.displacementFilter = new PIXI.filters.DisplacementFilter(
+            this.displacementSprite
+        );
+
+        this.displacementFilter.x = 0;
+        this.displacementFilter.y = 0;
+
+        this.container.filters = [this.displacementFilter];
     }
 
     add() {
@@ -151,12 +182,17 @@ class Sketch {
         this.app.ticker.add(() => {
             this.app.renderer.render(this.container);
 
+            this.direction = this.scroll > 0 ? -1 : 1;
+
             this.scroll -= (this.scroll - this.scrollTarget) * 0.1;
             this.scroll *= 0.9;
 
             this.thumbs.forEach((th) => {
                 th.position.x = this.calcPos(this.scroll, th.position.x);
             });
+
+            this.displacementFilter.scale.x =
+                3 * this.direction * Math.abs(this.scroll);
         });
     }
 }
