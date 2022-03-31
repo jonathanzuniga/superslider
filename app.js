@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import fit, { contain } from "math-fit";
+import fit from "math-fit";
 import gsap from "gsap";
 
 const t1 = "https://picsum.photos/1024/1024?grayscale";
@@ -65,6 +65,8 @@ class Sketch {
             h: this.height,
         };
 
+        this.thumbs = [];
+
         this.loadedImages.forEach(async (img, index) => {
             const texture = await PIXI.Texture.fromURL(img.path);
             const sprite = new PIXI.Sprite(texture);
@@ -104,14 +106,16 @@ class Sketch {
             container.x = (this.margin + this.width) * index;
             container.y = this.height / 10;
             container.interactive = true;
-            container.on("mouseover", this.mouseOn);
-            container.on("mouseout", this.mouseOut);
 
             spriteContainer.addChild(sprite);
+
+            container.on("mouseover", this.mouseOn);
+            container.on("mouseout", this.mouseOut);
             container.addChild(spriteContainer);
             container.addChild(mask);
 
             this.container.addChild(container);
+            this.thumbs.push(container);
         });
     }
 
@@ -134,6 +138,10 @@ class Sketch {
     render() {
         this.app.ticker.add(() => {
             this.app.renderer.render(this.container);
+
+            this.thumbs.forEach((th) => {
+                th.position.x += this.scroll;
+            });
         });
     }
 }
