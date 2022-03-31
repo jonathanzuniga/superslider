@@ -40,6 +40,7 @@ class Sketch {
         this.container = new PIXI.Container();
         this.app.stage.addChild(this.container);
         this.images = [t1, t2, t3, t4, t5, t6];
+        this.WHOLEWIDTH = this.images.length * (this.width + this.margin);
 
         loadImages(this.images, (images) => {
             // console.log(images);
@@ -136,14 +137,25 @@ class Sketch {
         gsap.to(el.scale, { duration: 1, x: 1, y: 1 });
     }
 
+    calcPos(scr, pos) {
+        let temp =
+            ((scr + pos + this.WHOLEWIDTH + this.width + this.margin) %
+                this.WHOLEWIDTH) -
+            this.width -
+            this.margin;
+
+        return temp;
+    }
+
     render() {
         this.app.ticker.add(() => {
             this.app.renderer.render(this.container);
 
             this.scroll -= (this.scroll - this.scrollTarget) * 0.1;
+            this.scroll *= 0.9;
 
             this.thumbs.forEach((th) => {
-                th.position.x += this.scroll;
+                th.position.x = this.calcPos(this.scroll, th.position.x);
             });
         });
     }
